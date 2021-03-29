@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 import Navigation from './components/Navigation'
@@ -10,9 +11,9 @@ function App() {
     <Router>
       <Navigation/>
       <Route exact path='/' component={NotesList}/>
-      <Route exact path='/edit/:id' component={<CreateNote}/>
-      <Route exact path='/create' component={CreateNote}/>
-      <Route exact path='/user' component={CreateUser}/>
+      <Route  path='/edit/:id' component={CreateNote}/>
+      <Route  path='/create' component={CreateNote}/>
+      <Route  path='/user' component={CreateUser}/>
       hello world
     </Router>
       
