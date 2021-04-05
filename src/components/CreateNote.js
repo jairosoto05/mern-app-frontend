@@ -3,6 +3,7 @@ import axios from 'axios'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
+
 export default class CreateNote extends Component {
 
     state={
@@ -10,7 +11,9 @@ export default class CreateNote extends Component {
         userSelected: '',
         title: '',
         content: '',
-        date: new Date()
+        date: new Date(),
+        editing: false,
+        _id: ''
     }
 
     async componentDidMount() {
@@ -21,6 +24,19 @@ export default class CreateNote extends Component {
         const res = await axios.get('http://localhost:4000/api/users')
         this.setState({ users: res.data.map(user => user.username) })
         this.setState({userSelected:res.data[0].username})
+
+        if(this.props.match.params.id){
+            const res = await axios.get('http://localhost:4000/api/notes/' + this.props.match.params.id)
+            this.setState({
+                title: res.data.title,
+                content: res.data.content,
+                date: new Date(res.data.date),
+                userSelected: res.data.author,
+                editing: true,
+                _id: this.props.match.params.id
+
+            })
+        }
     }
 
     onSubmit = async e =>{
@@ -31,8 +47,13 @@ export default class CreateNote extends Component {
             date: this.state.date,
             author: this.state.userSelected
         };
-       await axios.post('http://localhost:4000/api/notes', newNote)
-       window.location.href = '/';
+        if(this.state.editing){
+            await axios.put('http://localhost:4000/api/notes/' + this.state._id, newNote)
+        }else{
+            await axios.post('http://localhost:4000/api/notes', newNote)
+        }
+       
+            this.props.history.push("/");
     }
 
     onImputChange = e =>{
@@ -97,7 +118,7 @@ export default class CreateNote extends Component {
                             />
                         </div>
 
-                        <button type="submit" className="btn btn-primary">
+                        <button type="submit" className="btn btn-primary" >
                             Save
                         </button>
                     </form>

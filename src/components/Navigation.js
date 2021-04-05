@@ -1,66 +1,24 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import { Navbar, Nav, Container } from 'react-bootstrap'
 
 export default class Navigation extends Component {
-    state={
-        path: window.location.pathname,
-        class: {
-            notes: "nav-link",
-            create: "nav-link",
-            users: "nav-link"
-        }
-    }
-
-    componentDidUpdate(prevProps, prevState){
-        console.log(this.state.path);
-        if(this.state.path !== prevState.path){
-
-            console.log("object");
-            this.setState({
-                class: "nav-link",
-                path: window.location.pathname
-                
-            })
-        }
-    }
-
-    onChangePath = e =>{
-        
-        console.log(e.target.className)
-        this.setState({
-            path: window.location.pathname,
-            class: "nav-link"
-        })
-        e.target.className = this.state.path
-    }
-
     render() {
         return (
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark"  >
-                <div className="container">
-                    <div className="container-fluid">
-                        <Link className="navbar-brand" to='/'>
-                            NotesApp
-                        </Link>
-                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                            <span className="navbar-toggler-icon" />
-                        </button>
-                        <div className="collapse navbar-collapse" id="navbarNav">
-                            <ul className="navbar-nav ml-auto">
-                                <li className="nav-item">
-                                    <Link className="nav-link" to="/" >Notes</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className="nav-link" aria-current="page" to="/create"  >Create Note</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className="nav-link"  to="/user">Create User</Link>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </nav>
+            <Navbar collapseOnSelect expand="sm" className="navbar navbar-expand-lg navbar-dark bg-dark p-3">
+                <Container>
+                    <Navbar.Brand as={Link} to="/">NotesApp</Navbar.Brand>
+                    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                    <Navbar.Collapse id="renponsive-navbar-nav">
+                        <Nav defaultActiveKey={window.location.pathname} className="navbar-nav ml-auto">
+                            <Nav.Link eventKey="/" as={Link} to="/">Notes</Nav.Link>
+                            <Nav.Link eventKey="/create" as={Link} to="create">Create Note</Nav.Link>
+                            <Nav.Link eventKey="/user" as={Link} to="/user">Create User</Nav.Link>
+                        </Nav>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
+
         )
     }
 }
