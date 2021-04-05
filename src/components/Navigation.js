@@ -2,6 +2,38 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
 export default class Navigation extends Component {
+    state={
+        path: window.location.pathname,
+        class: {
+            notes: "nav-link",
+            create: "nav-link",
+            users: "nav-link"
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        console.log(this.state.path);
+        if(this.state.path !== prevState.path){
+
+            console.log("object");
+            this.setState({
+                class: "nav-link",
+                path: window.location.pathname
+                
+            })
+        }
+    }
+
+    onChangePath = e =>{
+        
+        console.log(e.target.className)
+        this.setState({
+            path: window.location.pathname,
+            class: "nav-link"
+        })
+        e.target.className = this.state.path
+    }
+
     render() {
         return (
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark"  >
@@ -16,13 +48,13 @@ export default class Navigation extends Component {
                         <div className="collapse navbar-collapse" id="navbarNav">
                             <ul className="navbar-nav ml-auto">
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/">Notes</Link>
+                                    <Link className="nav-link" to="/" >Notes</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link active" aria-current="page" to="/create">Create Note</Link>
+                                    <Link className="nav-link" aria-current="page" to="/create"  >Create Note</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/user">Create User</Link>
+                                    <Link className="nav-link"  to="/user">Create User</Link>
                                 </li>
                             </ul>
                         </div>
